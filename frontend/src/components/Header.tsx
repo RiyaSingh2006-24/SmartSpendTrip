@@ -5,11 +5,11 @@ import { useAuth } from "@/components/AuthProvider";
 import { Button } from "@/components/ui/button";
 
 const navItems = [
-  { label: "Planner", href: "#trip-planner" },
-  { label: "Explore", href: "#features" },
-  { label: "Nearby", href: "#nearby-finder" },
-  { label: "AI Advisor", href: "#ai-advisor" },
-  { label: "Saved Trips", href: "#saved-trips" },
+  { label: "Planner", sectionId: "trip-planner" },
+  { label: "Explore", sectionId: "features" },
+  { label: "Nearby", sectionId: "nearby-finder" },
+  { label: "AI Advisor", sectionId: "ai-advisor" },
+  { label: "Saved Trips", sectionId: "saved-trips" },
 ];
 
 const Header = () => {
@@ -20,6 +20,14 @@ const Header = () => {
   const handleLogout = () => {
     logout();
     navigate("/");
+  };
+
+  const scrollToSection = (sectionId: string) => {
+    navigate("/");
+    setMobileOpen(false);
+    window.setTimeout(() => {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 0);
   };
 
   return (
@@ -35,21 +43,27 @@ const Header = () => {
 
         <nav className="hidden items-center gap-1 rounded-full border border-white/70 bg-card/76 p-1.5 shadow-sm lg:flex">
           {navItems.map((item) => (
-            <a key={item.label} href={item.href} className="pill-nav relative after:absolute after:inset-x-5 after:-bottom-1 after:h-0.5 after:origin-center after:scale-x-0 after:rounded-full after:bg-primary after:transition-transform hover:after:scale-x-100">
+            <button
+              key={item.label}
+              type="button"
+              onClick={() => scrollToSection(item.sectionId)}
+              className="pill-nav relative after:absolute after:inset-x-5 after:-bottom-1 after:h-0.5 after:origin-center after:scale-x-0 after:rounded-full after:bg-primary after:transition-transform hover:after:scale-x-100"
+            >
               {item.label}
-            </a>
+            </button>
           ))}
         </nav>
 
         <div className="flex items-center gap-3">
           <div className="hidden items-center gap-2 md:flex">
-            <a
-              href="#saved-trips"
+            <button
+              type="button"
+              onClick={() => scrollToSection("saved-trips")}
               aria-label="Notifications"
               className="flex h-11 w-11 items-center justify-center rounded-2xl border border-border bg-card/80 text-muted-foreground shadow-sm transition hover:-translate-y-0.5 hover:text-foreground"
             >
               <Bell className="h-4 w-4" />
-            </a>
+            </button>
             {user ? (
               <>
                 <div className="flex items-center gap-2 rounded-full border border-border bg-card/85 px-3 py-2 text-sm shadow-sm">
@@ -86,9 +100,14 @@ const Header = () => {
         <div className="border-t border-border bg-card/95 p-4 shadow-xl backdrop-blur-xl md:hidden">
           <nav className="flex flex-col gap-2">
             {navItems.map((item) => (
-              <a key={item.label} href={item.href} className="rounded-2xl px-4 py-3 text-left text-sm font-medium text-foreground transition hover:bg-muted">
+              <button
+                key={item.label}
+                type="button"
+                onClick={() => scrollToSection(item.sectionId)}
+                className="rounded-2xl px-4 py-3 text-left text-sm font-medium text-foreground transition hover:bg-muted"
+              >
                 {item.label}
-              </a>
+              </button>
             ))}
             {user ? (
               <button
