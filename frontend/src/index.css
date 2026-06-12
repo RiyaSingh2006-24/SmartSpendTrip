@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 30 33% 97%;
+    --foreground: 0 0% 10%;
+
+    --card: 30 31% 96%;
+    --card-foreground: 0 0% 10%;
+
+    --popover: 30 31% 96%;
+    --popover-foreground: 0 0% 10%;
+
+    --primary: 18 64% 54%;
+    --primary-foreground: 30 33% 97%;
+
+    --secondary: 138 39% 39%;
+    --secondary-foreground: 30 33% 97%;
+
+    --muted: 30 27% 91%;
+    --muted-foreground: 0 0% 48%;
+
+    --accent: 207 38% 47%;
+    --accent-foreground: 30 33% 97%;
+
+    --gold: 44 92% 48%;
+    --gold-foreground: 0 0% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 0 0% 10% / 0.12;
+    --input: 0 0% 10% / 0.12;
+    --ring: 18 64% 54%;
+
+    --radius: 1rem;
+
+    --sidebar-background: 36 33% 93%;
+    --sidebar-foreground: 0 0% 5%;
+    --sidebar-primary: 14 55% 50%;
+    --sidebar-primary-foreground: 40 60% 98%;
+    --sidebar-accent: 130 15% 42%;
+    --sidebar-accent-foreground: 40 60% 98%;
+    --sidebar-border: 0 0% 5% / 0.12;
+    --sidebar-ring: 14 55% 50%;
+
+    --font-heading: 'Sora', 'Plus Jakarta Sans', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  .dark {
+    --background: 0 0% 7%;
+    --foreground: 36 33% 93%;
+    --card: 0 0% 10%;
+    --card-foreground: 36 33% 93%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 36 33% 93%;
+    --primary: 14 55% 50%;
+    --primary-foreground: 40 60% 98%;
+    --secondary: 130 15% 42%;
+    --secondary-foreground: 40 60% 98%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 30 12% 60%;
+    --accent: 207 38% 47%;
+    --accent-foreground: 40 60% 98%;
+    --gold: 38 55% 51%;
+    --gold-foreground: 40 60% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 36 33% 93% / 0.12;
+    --input: 36 33% 93% / 0.12;
+    --ring: 14 55% 50%;
+    --sidebar-background: 0 0% 7%;
+    --sidebar-foreground: 36 33% 93%;
+    --sidebar-primary: 14 55% 50%;
+    --sidebar-primary-foreground: 40 60% 98%;
+    --sidebar-accent: 130 15% 42%;
+    --sidebar-accent-foreground: 40 60% 98%;
+    --sidebar-border: 36 33% 93% / 0.12;
+    --sidebar-ring: 14 55% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+    overflow-x: hidden;
+    line-height: 1.5;
+    letter-spacing: 0;
+    text-rendering: optimizeLegibility;
+    background-color: #FAF8F5;
+    background-image:
+      linear-gradient(180deg, rgba(250, 248, 245, 0.92), rgba(250, 248, 245, 0.98)),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    letter-spacing: 0;
+    line-height: 1.06;
+  }
+
+  p {
+    line-height: 1.7;
+  }
+
+  label {
+    letter-spacing: 0;
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    font: inherit;
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.18);
+    color: hsl(var(--foreground));
+  }
+}
+
+@layer utilities {
+  .font-heading {
+    font-family: var(--font-heading);
+  }
+  .font-body {
+    font-family: var(--font-body);
+  }
+  .font-mono-custom {
+    font-family: var(--font-mono);
+  }
+}
+
+@layer components {
+  .hover-lift {
+    @apply transition-all duration-300 ease-out;
+  }
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px -8px hsl(var(--foreground) / 0.1);
+  }
+
+  .glass-card {
+    @apply rounded-2xl border border-white/60 bg-card/80 backdrop-blur-xl;
+    box-shadow: 0 24px 70px -42px hsl(var(--foreground) / 0.34);
+  }
+
+  .pill-nav {
+    @apply rounded-full px-5 py-3 text-sm font-medium transition-all duration-200;
+  }
+  .pill-nav:hover {
+    @apply bg-primary/10 text-primary;
+  }
+  .pill-nav.active {
+    @apply bg-primary text-primary-foreground;
+  }
+}
+
+#root {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.leaflet-container {
+  max-width: 100%;
+  overflow: hidden;
+}
