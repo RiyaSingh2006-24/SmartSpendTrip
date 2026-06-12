@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: smartspendtrip-api
+    env: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DEMO_MODE
+        value: true
+      - key: AUTH_SECRET
+        generateValue: true
+      - key: FRONTEND_BASE_URL
+        value: https://riyasingh2006-24.github.io/SmartSpendTrip
+      - key: CORS_ORIGIN
+        value: https://riyasingh2006-24.github.io
+      - key: DEFAULT_COUNTRY_CODE
+        value: IN
+      - key: OPENAI_MODEL
+        value: gpt-4.1
