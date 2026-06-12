@@ -1,4 +1,4 @@
-const API_ORIGIN = process.env.API_ORIGIN || "https://smartspendtrip-api.onrender.com";
+const API_ORIGIN = process.env.API_ORIGIN || "https://smartspendtrip-1.onrender.com";
 
 const buildTargetUrl = (request) => {
   const host = request.headers?.host || request.headers?.["x-forwarded-host"] || "localhost";

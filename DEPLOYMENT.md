@@ -50,16 +50,16 @@ CORS_ORIGIN_PATTERNS=https://*.vercel.app
 After deployment, test:
 
 ```text
-https://smartspendtrip-api.onrender.com/api/health
+https://smartspendtrip-1.onrender.com/api/health
 ```
 
 If Render gives your service a different external URL, use that URL in the next
-steps instead of the example `smartspendtrip-api.onrender.com` host.
+steps instead of the example `smartspendtrip-1.onrender.com` host.
 
 Your frontend API base URL is:
 
 ```text
-https://smartspendtrip-api.onrender.com/api
+https://smartspendtrip-1.onrender.com/api
 ```
 
 ## 3. Frontend on Vercel
@@ -69,14 +69,14 @@ Import this GitHub repo into Vercel. The root `vercel.json` builds `frontend`.
 Set this Vercel environment variable:
 
 ```text
-VITE_API_BASE_URL=https://smartspendtrip-api.onrender.com/api
+VITE_API_BASE_URL=https://smartspendtrip-1.onrender.com/api
 ```
 
 If you prefer to keep the frontend on same-origin `/api`, set this Vercel
 environment variable for the proxy function instead:
 
 ```text
-API_ORIGIN=https://smartspendtrip-api.onrender.com
+API_ORIGIN=https://smartspendtrip-1.onrender.com
 ```
 
 Then deploy.
