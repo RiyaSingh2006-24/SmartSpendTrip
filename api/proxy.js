@@ -11,15 +11,22 @@ const buildTargetUrl = (request) => {
 
 const toHeaderObject = (headers) => {
   const result = {};
-  headers.forEach((value, key) => {
+
+  const entries =
+    typeof headers.forEach === "function"
+      ? Array.from(headers.entries())
+      : Object.entries(headers || {});
+
+  entries.forEach(([key, value]) => {
     if (
       !["connection", "content-encoding", "content-length", "host", "transfer-encoding"].includes(
         key.toLowerCase(),
       )
     ) {
-      result[key] = value;
+      result[key] = Array.isArray(value) ? value.join(", ") : value;
     }
   });
+
   return result;
 };
 
