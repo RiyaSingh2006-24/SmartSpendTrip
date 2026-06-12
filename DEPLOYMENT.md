@@ -43,7 +43,7 @@ The blueprint already sets:
 ```text
 NODE_ENV=production
 DEMO_MODE=true
-CORS_ORIGIN=https://smart-spend-trip.vercel.app,https://riyasingh2006-24.github.io
+CORS_ORIGIN=https://smart-spend-trip-frontend.vercel.app,https://riyasingh2006-24.github.io
 CORS_ORIGIN_PATTERNS=https://*.vercel.app
 ```
 
@@ -71,7 +71,7 @@ VITE_API_BASE_URL=https://smartspendtrip-api.onrender.com/api
 
 Then deploy.
 
-If your Vercel domain is not `https://smart-spend-trip.vercel.app`, update Render:
+If your Vercel domain is not `https://smart-spend-trip-frontend.vercel.app`, update Render:
 
 ```text
 FRONTEND_BASE_URL=https://YOUR-VERCEL-DOMAIN

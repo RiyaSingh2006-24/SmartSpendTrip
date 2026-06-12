@@ -17,9 +17,9 @@ services:
       - key: AUTH_SECRET
         generateValue: true
       - key: FRONTEND_BASE_URL
-        value: https://smart-spend-trip.vercel.app
+        value: https://smart-spend-trip-frontend.vercel.app
       - key: CORS_ORIGIN
-        value: https://smart-spend-trip.vercel.app,https://riyasingh2006-24.github.io
+        value: https://smart-spend-trip-frontend.vercel.app,https://riyasingh2006-24.github.io
       - key: CORS_ORIGIN_PATTERNS
         value: https://*.vercel.app
       - key: MONGO_URI
