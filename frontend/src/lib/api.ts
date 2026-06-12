@@ -15,7 +15,26 @@ import { authStorage } from "@/lib/auth";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "/api";
 
+const isJsonResponse = (response: Response) => {
+  const contentType = response.headers.get("content-type") || "";
+  return contentType.includes("application/json") || contentType.includes("+json");
+};
+
+const getNonJsonErrorMessage = (response: Response) => {
+  const contentType = response.headers.get("content-type") || "unknown content type";
+
+  if (contentType.includes("text/html")) {
+    return `The API request returned the frontend HTML page instead of JSON. Redeploy Vercel with the fixed /api route, or set VITE_API_BASE_URL to your Render API URL.`;
+  }
+
+  return `The API returned ${contentType} instead of JSON. Check VITE_API_BASE_URL and the backend deployment URL.`;
+};
+
 const getErrorMessage = async (response: Response) => {
+  if (!isJsonResponse(response)) {
+    return getNonJsonErrorMessage(response);
+  }
+
   try {
     const payload = await response.json();
     return payload.message || "Request failed";
@@ -43,6 +62,10 @@ const request = async <T>(path: string, options?: RequestInit): Promise<T> => {
 
   if (!response.ok) {
     throw new Error(await getErrorMessage(response));
+  }
+
+  if (!isJsonResponse(response)) {
+    throw new Error(getNonJsonErrorMessage(response));
   }
 
   return response.json() as Promise<T>;

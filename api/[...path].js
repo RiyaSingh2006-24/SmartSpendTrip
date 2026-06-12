@@ -1,9 +1,22 @@
-const API_ORIGIN = "https://smartspendtrip-api.onrender.com";
+const API_ORIGIN = process.env.API_ORIGIN || "https://smartspendtrip-api.onrender.com";
+
+const buildTargetUrl = (request) => {
+  const incomingUrl = new URL(request.url, `https://${request.headers.host}`);
+  const apiPath = incomingUrl.pathname.startsWith("/api/")
+    ? incomingUrl.pathname
+    : `/api${incomingUrl.pathname}`;
+
+  return `${API_ORIGIN}${apiPath}${incomingUrl.search}`;
+};
 
 const toHeaderObject = (headers) => {
   const result = {};
   headers.forEach((value, key) => {
-    if (!["content-encoding", "content-length", "transfer-encoding"].includes(key.toLowerCase())) {
+    if (
+      !["connection", "content-encoding", "content-length", "host", "transfer-encoding"].includes(
+        key.toLowerCase(),
+      )
+    ) {
       result[key] = value;
     }
   });
@@ -11,18 +24,17 @@ const toHeaderObject = (headers) => {
 };
 
 module.exports = async function handler(request, response) {
-  const url = new URL(request.url, `https://${request.headers.host}`);
-  const targetUrl = `${API_ORIGIN}${url.pathname}${url.search}`;
+  const targetUrl = buildTargetUrl(request);
+  const isReadOnlyRequest = ["GET", "HEAD"].includes(request.method);
 
   try {
     const upstream = await fetch(targetUrl, {
       method: request.method,
       headers: {
-        ...request.headers,
-        host: new URL(API_ORIGIN).host,
+        ...toHeaderObject(request.headers),
       },
-      body: ["GET", "HEAD"].includes(request.method) ? undefined : request,
-      duplex: ["GET", "HEAD"].includes(request.method) ? undefined : "half",
+      body: isReadOnlyRequest ? undefined : request,
+      duplex: isReadOnlyRequest ? undefined : "half",
     });
 
     response.status(upstream.status);
