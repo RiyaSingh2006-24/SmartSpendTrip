@@ -1,7 +1,8 @@
 const API_ORIGIN = process.env.API_ORIGIN || "https://smartspendtrip-api.onrender.com";
 
 const buildTargetUrl = (request) => {
-  const incomingUrl = new URL(request.url, `https://${request.headers.host}`);
+  const host = request.headers?.host || request.headers?.["x-forwarded-host"] || "localhost";
+  const incomingUrl = new URL(request.url || "/", `https://${host}`);
   const apiPath = incomingUrl.pathname.startsWith("/api/")
     ? incomingUrl.pathname
     : `/api${incomingUrl.pathname}`;
@@ -31,10 +32,18 @@ const toHeaderObject = (headers) => {
 };
 
 module.exports = async function handler(request, response) {
-  const targetUrl = buildTargetUrl(request);
-  const isReadOnlyRequest = ["GET", "HEAD"].includes(request.method);
-
   try {
+    if (request.method === "OPTIONS") {
+      response.setHeader("Access-Control-Allow-Origin", "*");
+      response.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
+      response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+      response.status(204).end();
+      return;
+    }
+
+    const targetUrl = buildTargetUrl(request);
+    const isReadOnlyRequest = ["GET", "HEAD"].includes(request.method);
+
     const upstream = await fetch(targetUrl, {
       method: request.method,
       headers: {
