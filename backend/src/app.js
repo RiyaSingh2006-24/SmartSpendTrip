@@ -24,10 +24,21 @@ const isLocalDevelopmentOrigin = (origin) => {
   }
 };
 
+const wildcardPatternToRegExp = (pattern) =>
+  new RegExp(`^${pattern.split("*").map((part) => part.replace(/[|\\{}()[\]^$+?.]/g, "\\$&")).join(".*")}$`);
+
+const corsOriginPatterns = env.corsOriginPatterns.map(wildcardPatternToRegExp);
+
+const isAllowedCorsOrigin = (origin) =>
+  !origin ||
+  env.corsOrigins.includes(origin) ||
+  corsOriginPatterns.some((pattern) => pattern.test(origin)) ||
+  isLocalDevelopmentOrigin(origin);
+
 app.use(
   cors({
     origin(origin, callback) {
-      if (!origin || env.corsOrigins.includes(origin) || isLocalDevelopmentOrigin(origin)) {
+      if (isAllowedCorsOrigin(origin)) {
         callback(null, true);
         return;
       }

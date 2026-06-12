@@ -17,10 +17,20 @@ services:
       - key: AUTH_SECRET
         generateValue: true
       - key: FRONTEND_BASE_URL
-        value: https://riyasingh2006-24.github.io/SmartSpendTrip
+        value: https://smart-spend-trip.vercel.app
       - key: CORS_ORIGIN
-        value: https://riyasingh2006-24.github.io
+        value: https://smart-spend-trip.vercel.app,https://riyasingh2006-24.github.io
+      - key: CORS_ORIGIN_PATTERNS
+        value: https://*.vercel.app
+      - key: MONGO_URI
+        sync: false
       - key: DEFAULT_COUNTRY_CODE
         value: IN
       - key: OPENAI_MODEL
         value: gpt-4.1
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: FOURSQUARE_API_KEY
+        sync: false
+      - key: OPENWEATHER_API_KEY
+        sync: false

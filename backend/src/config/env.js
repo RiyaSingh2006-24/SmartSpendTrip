@@ -68,6 +68,12 @@ const toNumber = (value, fallback) => {
   return Number.isFinite(parsed) ? parsed : fallback;
 };
 
+const toList = (value, fallback = "") =>
+  (value || fallback)
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+
 const nodeEnv = process.env.NODE_ENV || "development";
 const authSecret = process.env.AUTH_SECRET || "smartspend-dev-secret";
 
@@ -83,10 +89,11 @@ export const env = {
   mongoUri: process.env.MONGO_URI || process.env.MONGODB_URI || "",
   authSecret,
   frontendBaseUrl: process.env.FRONTEND_BASE_URL || "http://localhost:5173",
-  corsOrigins: (process.env.CORS_ORIGIN || "http://localhost:5173,http://localhost:8080,http://localhost:8081")
-    .split(",")
-    .map((origin) => origin.trim())
-    .filter(Boolean),
+  corsOrigins: toList(
+    process.env.CORS_ORIGIN,
+    "http://localhost:5173,http://localhost:8080,http://localhost:8081",
+  ),
+  corsOriginPatterns: toList(process.env.CORS_ORIGIN_PATTERNS),
   openAiApiKey: process.env.OPENAI_API_KEY || "",
   openAiModel: process.env.OPENAI_MODEL || "gpt-4.1",
   foursquareApiKey: process.env.FOURSQUARE_API_KEY || "",
